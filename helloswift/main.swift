@@ -14,8 +14,13 @@
 
 import Foundation
 
+print("what's your name?")
 var name:String = readLine() ?? "Chris"
-print(name)
+if name == "Nicole" {
+    print("AWESOME NAME")
+} else {
+    print("\(name) is a silly name")
+}
 
 /*:
  ### 1.2 Packaging your data
