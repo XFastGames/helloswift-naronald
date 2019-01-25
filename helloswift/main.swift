@@ -19,7 +19,8 @@ var name:String = readLine() ?? "Chris"
 if name == "Nicole" {
     print("AWESOME NAME")
 } else {
-    print("\(name) is a silly name")
+    let lotsaSilly = String(repeating: "silly ", count: 100)
+    print("\(name) is a \(lotsaSilly) name")
 }
 
 /*:
