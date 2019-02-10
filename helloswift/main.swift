@@ -90,10 +90,45 @@ protocol Bunker {
     func open()
 }
 
+class TNT: Explosive {
+    func detonate() -> Bool {
+        let boomOrBust = Bool.random()
+        return boomOrBust
+    }
+}
+    
+class Underground: Bunker {
+    required init(occupent: Cat, explosive: Explosive) {
+        self.occupent = occupent
+        self.explosive = explosive
+    }
+    
+    var occupent: Cat
+    var explosive: Explosive
+    
+    func open() {
+        if explosive.detonate() {
+            occupent.isAlive = false
+        } else {
+            occupent.isAlive = true
+        }
+    }
+    
+        
+}
+
 func checkIfTheCatIsAlive(cat: Cat) {
-    // TODO: if the cat is alive, print "Its alive!!! 😸"
-    // TODO: if the cat is dead, print "Oh no 😿"
-    // TODO: if the cat is neither alive nor dead, print "Its cat-tum superposition! 🤷‍♂️😼"
+    guard let isAlive = cat.isAlive else {
+        print("Its cat-tum superposition! 🤷‍♂️😼")
+        return
+    }
+    
+    if isAlive {
+        print("Its alive!!! 😸")
+    } else {
+        print("Oh no 😿")
+    }
+    return
 }
 
 
@@ -114,6 +149,16 @@ func checkIfTheCatIsAlive(cat: Cat) {
  - Note:  at this point, the cat should be either alive or dead; but not both
  */
 
+let cat: Cat = Cat(name: "Jellie", isAlive: nil)
+let tnt: TNT = TNT()
+let underground = Underground(occupent: cat, explosive: tnt)
+
+print(underground.occupent.isAlive)
+
+underground.open()
+print(underground.occupent.isAlive!) // should we require the ! as it should not be nil?
+
+
 /*:
  ### 2.3 Tweaking the Experiment
  
@@ -130,5 +175,40 @@ protocol DangerousBunker {
     var explosives: [Explosive] { get }
     func open()
 }
+
+class FurtherUnderground: DangerousBunker {
+    required init(occupent: Cat, explosives: [Explosive]) {
+        self.occupent = occupent
+        self.explosives = explosives
+    }
+    
+    var explosives: [Explosive]
+    var occupent: Cat
+    
+    // non-functional approach
+    func open() {
+        var allBoom = false
+        for explosive in explosives {
+            if explosive.detonate() {
+                allBoom = true
+            }
+        }
+        if allBoom {
+            occupent.isAlive = false
+        } else {
+            occupent.isAlive = true
+        }
+    }
+    
+}
+
+let cat2: Cat = Cat(name: "Jellie2", isAlive: nil)
+let tnt2: TNT = TNT()
+let underground2 = FurtherUnderground(occupent: cat2, explosives: [tnt, tnt2])
+
+print(underground2.occupent.isAlive)
+
+underground2.open()
+print(underground2.occupent.isAlive!)
 
 //: - Note: Extra points if made use of higher order functions such as `.map` and `.reduce` to make the `open()` function as *functional* as possible
