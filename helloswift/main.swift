@@ -17,10 +17,10 @@ import Foundation
 print("what's your name?")
 var name:String = readLine() ?? "Chris"
 if name == "Nicole" {
-    print("AWESOME NAME")
+    print("Awesome name")
 } else {
     let lotsaSilly = String(repeating: "silly ", count: 100)
-    print("\(name) is a \(lotsaSilly) name")
+    print("\(name) is a silly, silly silly silly \(lotsaSilly) name")
 }
 
 /*:
@@ -38,12 +38,17 @@ struct Profile {
 }
 
 func validate(firstName: String, lastName:String, age:Int?) -> Profile? {
-    // TODO
-    // 1. add a guard to check if the age is not optional
-    // 2. add a guard to check if the age is in range
-    // 3. wrap the collected data in the struct and return
-    return nil
+    guard let age = age, age >= 18, age < 999 else {
+        print("Age is not between 18 and 999.")
+        return nil
+    }
+    
+    let profile: Profile = Profile(firstName: firstName, lastName: lastName, age: age)
+    
+    return profile
 }
+
+//print(validate(firstName: "Nicole", lastName: "Ronald", age: 9)?.firstName)
 
 
 /*:
